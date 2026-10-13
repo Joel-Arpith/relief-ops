@@ -1,4 +1,4 @@
-# Relief Ops: Disaster Response Logistics
+# Relief Operations: Disaster Response Logistics
 
 Hazard-aware relief fleet routing on the real OpenStreetMap road network of Hyderabad. This is the
 working system behind the DAA PBL report *Disaster Response Logistics: Multi-Depot Routing and

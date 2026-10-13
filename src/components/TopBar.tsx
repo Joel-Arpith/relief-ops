@@ -43,7 +43,7 @@ export default function TopBar({ ops, view, children }: { ops: Ops; view: 'admin
             <span className="absolute inset-0 animate-breathe rounded-xl border border-neon-cyan/20" />
           </div>
           <div className="leading-none">
-            <div className="text-[15px] font-semibold tracking-tight text-slate-50">Relief Ops</div>
+            <div className="text-[15px] font-semibold tracking-tight text-slate-50">Relief Operations</div>
             <div className="mt-1 hidden items-center gap-1.5 font-mono text-[9.5px] uppercase tracking-[0.16em] text-slate-500 sm:flex">
               <span className="text-neon-cyan/70">{view === 'admin' ? 'dispatch' : 'driver'}</span>
               <span>·</span>

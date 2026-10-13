@@ -61,14 +61,14 @@ export default function BootSplash({ onDone }: { onDone: () => void }) {
             </div>
 
             <StrokeText
-              text="RELIEF OPS"
+              text="RELIEF OPERATIONS"
               strokeColor="#22D3EE"
               fillColor="#F1F5F9"
               strokeWidth={1.1}
               drawDuration={1.35}
               fillDelay={0.12}
               stagger={0.045}
-              fontSize={typeof window !== 'undefined' && window.innerWidth < 768 ? 54 : 96}
+              fontSize={typeof window !== 'undefined' && window.innerWidth < 768 ? 30 : 64}
               fontWeight={800}
               letterSpacing={-2}
               fillMode="wipe"

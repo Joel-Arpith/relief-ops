@@ -61,7 +61,7 @@ export default function DriverView({ driverId }: { driverId?: string }) {
     setAlert(text);
     beep();
     navigator.vibrate?.([300, 120, 300]);
-    if (notify && document.visibilityState !== 'visible') new Notification('Relief Ops', { body: text, tag: `ro-${driverId}` });
+    if (notify && document.visibilityState !== 'visible') new Notification('Relief Operations', { body: text, tag: `ro-${driverId}` });
   }, [row, msgs, notify, driverId]);
 
   // on a blocked route the safe alternative is computed before the driver asks

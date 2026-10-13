@@ -53,12 +53,12 @@ async function reseed(db: D1Database) {
     ...seed.drivers.map((d) =>
       db
         .prepare('INSERT INTO drivers VALUES (?,?,?,?,?,?,?,?,?)')
-        .bind(d.id, d.name, d.vehicle, d.depot, JSON.stringify(d.path), JSON.stringify(d.stops), now, '[]', now),
+        .bind(d.id, d.name, d.vehicle, d.depot, JSON.stringify(d.path), JSON.stringify(d.stops), now, JSON.stringify((d as any).acked ?? []), now),
     ),
-    db.prepare('INSERT INTO messages (driver_id, sender, text, created_at) VALUES (NULL, ?, ?, ?)').bind(
-      'system',
-      'Dispatch plan issued: Kruskal clearance → Dijkstra → greedy allocation → knapsack loading → subset-DP routing.',
-      now,
+    ...seed.messages.map((m) =>
+      db
+        .prepare('INSERT INTO messages (driver_id, sender, text, created_at) VALUES (?, ?, ?, ?)')
+        .bind(m.driver_id, m.sender, m.text, now - m.ago * 60000),
     ),
   ]);
 }

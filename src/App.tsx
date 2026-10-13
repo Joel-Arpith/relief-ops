@@ -52,13 +52,13 @@ function Landing() {
         <div className="label text-center text-neon-cyan/70">Disaster response logistics · Hyderabad</div>
         <div className="mt-3 flex justify-center">
           <StrokeText
-            text="RELIEF OPS"
+            text="RELIEF OPERATIONS"
             strokeColor="#22D3EE"
             fillColor="#F1F5F9"
             strokeWidth={1.1}
             drawDuration={1.2}
             stagger={0.045}
-            fontSize={innerWidth < 768 ? 48 : 84}
+            fontSize={innerWidth < 768 ? 30 : 62}
             fontWeight={800}
             letterSpacing={-2}
             fillMode="wipe"
