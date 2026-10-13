@@ -1,0 +1,8 @@
+name = "relief-ops"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-09-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "relief-ops"
+database_id = "bf061d69-f07c-445a-8074-7cc29704ab50"

@@ -1,0 +1,386 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --glass: rgba(255, 255, 255, 0.045);
+  --glass-strong: rgba(255, 255, 255, 0.07);
+  --hair: rgba(255, 255, 255, 0.09);
+  --hair-soft: rgba(255, 255, 255, 0.055);
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #04060b;
+  color: #E6EDF7;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Phones: keep the glass affordable, and never let a pane bounce the page. */
+@media (max-width: 767px) {
+  /* phone layouts stack map over panel, so the page itself scrolls */
+  body {
+    overflow: auto;
+  }
+
+  .glass,
+  .glass-quiet {
+    backdrop-filter: blur(16px) saturate(130%);
+    -webkit-backdrop-filter: blur(16px) saturate(130%);
+  }
+
+  .scroll-thin {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Hide the zoom/scale widgets, never the attribution — CARTO, Esri and OSM
+     all require it to stay visible, so it is lifted clear of the queue sheet. */
+  .maplibregl-ctrl-group,
+  .maplibregl-ctrl-scale {
+    display: none;
+  }
+
+  .maplibregl-ctrl-bottom-right {
+    bottom: 132px;
+  }
+
+  .tw-marker {
+    --size: 16px;
+  }
+}
+
+::selection {
+  background: rgba(34, 211, 238, 0.28);
+}
+
+/* ---------- glass system ---------- */
+@layer components {
+  .glass {
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.062), rgba(255, 255, 255, 0.022));
+    border: 1px solid var(--hair);
+    backdrop-filter: blur(22px) saturate(140%);
+    -webkit-backdrop-filter: blur(22px) saturate(140%);
+    box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.05) inset, 0 24px 60px -30px rgba(0, 0, 0, 0.95);
+  }
+
+  .glass-quiet {
+    background: rgba(9, 13, 20, 0.62);
+    border: 1px solid var(--hair-soft);
+    backdrop-filter: blur(18px) saturate(130%);
+    -webkit-backdrop-filter: blur(18px) saturate(130%);
+  }
+
+  .hairline {
+    border-color: var(--hair);
+  }
+
+  .label {
+    @apply font-mono text-[10px] uppercase tracking-[0.18em] text-slate-500;
+  }
+
+  .metric {
+    @apply font-mono tabular-nums text-slate-100;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border px-2 py-[3px] font-mono text-[10px] uppercase tracking-[0.12em];
+  }
+
+  .btn-glass {
+    @apply inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.045] px-3 py-1.5
+           font-mono text-[11px] uppercase tracking-[0.14em] text-slate-300 transition-all duration-200;
+  }
+
+  .btn-glass:hover {
+    @apply border-white/20 bg-white/[0.09] text-white;
+  }
+
+  .btn-glass[data-active='true'] {
+    border-color: rgba(34, 211, 238, 0.45);
+    background: rgba(34, 211, 238, 0.14);
+    color: #A5F3FC;
+    box-shadow: 0 0 22px -6px rgba(34, 211, 238, 0.7);
+  }
+}
+
+/* ---------- scrollbars ---------- */
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+}
+
+.scroll-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+}
+
+.scroll-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---------- ambient motion ---------- */
+.aurora {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(90px);
+  will-change: transform;
+  pointer-events: none;
+}
+
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+}
+
+.scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.35), transparent);
+  animation: scan 9s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scan {
+  0% { transform: translateY(0); opacity: 0; }
+  6% { opacity: 0.8; }
+  94% { opacity: 0.8; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.04) 25%, rgba(255, 255, 255, 0.09) 37%, rgba(255, 255, 255, 0.04) 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.6s ease infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* ---------- map markers ---------- */
+.tw-marker {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--size, 18px);
+  height: var(--size, 18px);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tw-marker:hover {
+  transform: scale(1.35);
+  z-index: 20;
+}
+
+.tw-marker__core {
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--tone);
+  box-shadow: 0 0 0 1.5px rgba(6, 10, 16, 0.85), 0 0 16px 2px color-mix(in srgb, var(--tone) 60%, transparent);
+}
+
+.tw-marker__halo {
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--tone) 70%, transparent);
+  animation: haloPulse 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  pointer-events: none;
+}
+
+.tw-marker__novelty {
+  position: absolute;
+  inset: -11px;
+  border-radius: 999px;
+  background: conic-gradient(from 0deg, transparent 62%, rgba(192, 132, 252, 0.85) 100%);
+  -webkit-mask: radial-gradient(circle, transparent 58%, #000 60%);
+  mask: radial-gradient(circle, transparent 58%, #000 60%);
+  animation: radarSweep 2.6s linear infinite;
+  pointer-events: none;
+}
+
+.tw-marker[data-selected='true'] .tw-marker__core {
+  box-shadow: 0 0 0 2px #fff, 0 0 26px 5px color-mix(in srgb, var(--tone) 85%, transparent);
+}
+
+@keyframes haloPulse {
+  0% { transform: scale(0.75); opacity: 0.9; }
+  70% { transform: scale(1.9); opacity: 0; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+@keyframes radarSweep {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- maplibre chrome ---------- */
+.maplibregl-ctrl-attrib,
+.maplibregl-ctrl-bottom-right .maplibregl-ctrl {
+  background: rgba(4, 6, 11, 0.62) !important;
+  color: #64748b !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 9px !important;
+  border-radius: 6px 0 0 0 !important;
+  backdrop-filter: blur(8px);
+}
+
+.maplibregl-ctrl-attrib a {
+  color: #7DD3FC !important;
+}
+
+.maplibregl-canvas:focus {
+  outline: none;
+}
+
+.maplibregl-popup-content {
+  background: rgba(8, 12, 20, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 10px !important;
+  backdrop-filter: blur(18px);
+  padding: 10px 12px !important;
+  box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.9) !important;
+}
+
+.maplibregl-popup-tip {
+  border-top-color: rgba(8, 12, 20, 0.9) !important;
+  border-bottom-color: rgba(8, 12, 20, 0.9) !important;
+}
+
+/* ---------- relief-ops markers ---------- */
+.ro-depot {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: rgba(34, 211, 238, 0.16);
+  border: 1.5px solid #22d3ee;
+  color: #a5f3fc;
+  font: 700 10px 'JetBrains Mono', monospace;
+  box-shadow: 0 0 18px -2px rgba(34, 211, 238, 0.7);
+  cursor: default;
+}
+
+.ro-place {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--tone);
+  background: rgba(4, 6, 11, 0.75);
+  display: grid;
+  place-items: center;
+}
+
+.ro-place span {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--tone);
+  box-shadow: 0 0 10px var(--tone);
+}
+
+.ro-truck {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.ro-truck__body {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: #0b1018;
+  color: var(--tone);
+  border: 2px solid var(--tone);
+  box-shadow: 0 0 0 1.5px rgba(4, 6, 11, 0.9), 0 0 18px 2px color-mix(in srgb, var(--tone) 55%, transparent);
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ro-truck__body svg {
+  transition: transform 600ms ease;
+}
+
+.ro-truck:hover .ro-truck__body,
+.ro-truck[data-selected='true'] .ro-truck__body {
+  transform: scale(1.25);
+}
+
+.ro-truck[data-selected='true'] .ro-truck__body {
+  border-color: #fff;
+}
+
+.ro-truck__halo {
+  position: absolute;
+  inset: -4px;
+  border-radius: 999px;
+  border: 1.5px solid var(--tone);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ro-truck[data-level='critical'] .ro-truck__halo,
+.ro-truck[data-level='warning'] .ro-truck__halo {
+  animation: haloPulse 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.ro-truck__tag {
+  position: absolute;
+  top: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(4, 6, 11, 0.8);
+  color: #cbd5e1;
+  font: 500 9px 'JetBrains Mono', monospace;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ro-truck__halo { animation: none !important; opacity: 0.6; }
+}

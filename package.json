@@ -1,0 +1,39 @@
+{
+  "name": "relief-ops",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && tsc -p functions && vite build",
+    "preview": "wrangler pages dev",
+    "seed": "node scripts/seed.ts",
+    "check": "node scripts/check.ts",
+    "deploy": "npm run build && wrangler pages deploy"
+  },
+  "dependencies": {
+    "gsap": "^3.13.0",
+    "lucide-react": "^0.544.0",
+    "maplibre-gl": "^5.9.0",
+    "motion": "^12.23.12",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0",
+    "@cloudflare/workers-types": "^5.20261006.1",
+    "wrangler": "^4.40.0"
+  },
+  "allowScripts": {
+    "esbuild@0.25.12": true,
+    "esbuild@0.28.2": true,
+    "workerd@1.20261006.1": true
+  }
+}

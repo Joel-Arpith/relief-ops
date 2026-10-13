@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+.env*
+.vercel
+__pycache__/
+*.pyc
+.DS_Store
+*.log
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+.wrangler/
+scripts/osm_raw.json
+.claude/
