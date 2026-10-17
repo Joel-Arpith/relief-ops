@@ -1,0 +1,8 @@
+{
+ "kruskal": 0.11,
+ "dijkstra": 1.64,
+ "allocate": 0.05,
+ "knapsack": 0.15,
+ "routing": 0.14,
+ "evaluate500": 916.31
+}
